@@ -70,7 +70,18 @@
 (defn general-symmetrize-body-parts
   "Given a vector of part maps, returns a vector with maps symmetrized to a given value"
   [parts sym-count]
-  (map (partial symmetrize-body-part sym-count) parts))
+  (let [sym-parts (map (partial symmetrize-body-part sym-count) parts)
+        somefunc (fn [partv acc]
+                   (loop [parts partv
+                          acc acc]
+                     (if (empty? parts)
+                       acc
+                       (recur (rest parts) (conj acc (first parts))))))]
+    (loop [partv sym-parts
+           acc []]
+      (if (empty? partv)
+        acc
+        (recur (rest partv) (somefunc (first partv) acc))))))
 
 (defn hit
   [asym-body-parts]

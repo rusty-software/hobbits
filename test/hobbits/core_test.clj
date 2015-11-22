@@ -14,15 +14,15 @@
   (testing "Given a map of body parts and needing 3 total, return a map with 1, 2, and 3"
     (let [parts [{:name "eye" :size 1}
                  {:name "ear" :size 1}
-                 {:name "shoulder" :size 3}]
+                 {:name "arm" :size 3}]
           expected [{:name "eye 1" :size 1}
                     {:name "eye 2" :size 1}
                     {:name "eye 3" :size 1}
                     {:name "ear 1" :size 1}
                     {:name "ear 2" :size 1}
                     {:name "ear 3" :size 1}
-                    {:name "shoulder 1" :size 3}
-                    {:name "shoulder 2" :size 3}
-                    {:name "shoulder 3" :size 3}]
+                    {:name "arm 1" :size 3}
+                    {:name "arm 2" :size 3}
+                    {:name "arm 3" :size 3}]
           actual (general-symmetrize-body-parts parts 3)]
       (is (= (set expected) (set actual))))) )
