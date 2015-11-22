@@ -62,26 +62,14 @@
 
 (defn symmetrize-body-part
   "Given a limit and single body part map, returns a vector with sym-count similar parts"
-  [sym-count {:keys [name size]}]
-  (reduce (fn [v i] (conj v {:name (format "%s %s" name i) :size size}))
-          []
-          (range 1 (inc sym-count))))
+  [sym-count {:keys [name] :as part}]
+  (for [i (range 1 (inc sym-count))]
+    (assoc part :name (format "%s %s" name i))))
 
 (defn general-symmetrize-body-parts
   "Given a vector of part maps, returns a vector with maps symmetrized to a given value"
   [parts sym-count]
-  (let [sym-parts (map (partial symmetrize-body-part sym-count) parts)
-        somefunc (fn [partv acc]
-                   (loop [parts partv
-                          acc acc]
-                     (if (empty? parts)
-                       acc
-                       (recur (rest parts) (conj acc (first parts))))))]
-    (loop [partv sym-parts
-           acc []]
-      (if (empty? partv)
-        acc
-        (recur (rest partv) (somefunc (first partv) acc))))))
+  (mapcat (partial symmetrize-body-part sym-count) parts))
 
 (defn hit
   [asym-body-parts]
